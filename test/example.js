@@ -2,7 +2,9 @@ const ssclient = require('smartsheet');
 const { 
     smartsheetApiToken,
     prodFolderId,
-    testFolderId
+    testFolderId,
+    testSourceData,
+    appSheets
 } = require('../ss-config.json');
 
 const ss = ssclient.createClient({
@@ -20,7 +22,7 @@ const listSheets = async () => {
     });
 }
 
-listSheets();
+// listSheets();
 
 
 
@@ -123,3 +125,15 @@ const createRsvpSheetsInFolder = async (folderId) => {
 };
 
 // createRsvpSheetsInFolder();
+
+const copyGuestList = async () => {
+    const guestList = await ss.sheets.getSheet({ id: testSourceData.id });
+    guestList.columns.filter((column) =>
+        (column.id === testSourceData.columnIds.inviteNumber ||
+         column.id === testSourceData.columnIds.guestName)
+    ).forEach((column) => {
+        console.log(column.title, column.id);
+    });
+}
+
+copyGuestList();
