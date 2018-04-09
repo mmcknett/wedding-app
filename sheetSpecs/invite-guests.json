@@ -1,0 +1,14 @@
+{
+    "name": "invite-guests",
+    "columns": [
+        {
+            "title": "Invite #",
+            "primary": true,
+            "type": "TEXT_NUMBER"
+        },
+        {
+            "title": "Guest Name",
+            "type": "TEXT_NUMBER"
+        }
+    ]
+}

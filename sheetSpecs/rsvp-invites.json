@@ -1,0 +1,14 @@
+{
+    "name": "rsvp-invites",
+    "columns": [
+        {
+            "title": "Invite #",
+            "primary": true,
+            "type": "TEXT_NUMBER"
+        },
+        {
+            "title": "Invite Code",
+            "type": "TEXT_NUMBER"
+        }
+    ]
+}

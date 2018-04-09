@@ -11,6 +11,7 @@
   },
   "scripts": {
     "example": "node test/example.js",
+    "create": "node scripts/create-sheets.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

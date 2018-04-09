@@ -20,7 +20,7 @@ const listSheets = async () => {
     });
 }
 
-// listSheets();
+listSheets();
 
 
 
@@ -35,11 +35,11 @@ const listStuff = async () => {
     console.log(list);
 }
 
-listStuff();
+// listStuff();
 
 const createRsvpSheetsInFolder = async (folderId) => {
-    const inviteSpec = {
-        "name": "rsvp-invites",
+    const guestSpec = {
+        "name": "invite-guests",
         "columns": [
             {
                 "title": "Invite #",
@@ -53,9 +53,32 @@ const createRsvpSheetsInFolder = async (folderId) => {
         ]
     };
 
+    const inviteSpec = {
+        "name": "rsvp-invites",
+        "columns": [
+            {
+                "title": "Invite #",
+                "primary": true,
+                "type": "TEXT_NUMBER"
+            },
+            {
+                "title": "Invite Code",
+                "type": "TEXT_NUMBER"
+            }
+        ]
+    }
+
     const actionSpec = {
         "name": "rsvp-actions",
         "columns": [
+            {
+                "title": "Action #",
+                "systemColumnType": "AUTO_NUMBER",
+                "autoNumberFormat": {
+                    "startingNumber": 0
+                },
+                "type": "TEXT_NUMBER"
+            },
             {
                 "title": "Invite #",
                 "primary": true,
@@ -66,5 +89,37 @@ const createRsvpSheetsInFolder = async (folderId) => {
                 "type": "TEXT_NUMBER"
             }
         ]
+    };
+
+    const options = {
+        folderId: testFolderId,
+        body: inviteSpec
+    };
+
+    try {
+        const inviteSheet = await ss.sheets.createSheetInFolder(options);
+        console.log("invite sheet info:", inviteSheet);
+    } catch(error) {
+        console.error("Failed to create", inviteSpec.name, "-", error);
     }
-} 
+
+    options.body = actionSpec;
+
+    try {
+        const actionSheet = await ss.sheets.createSheetInFolder(options);
+        console.log("action sheet info:", actionSheet);
+    } catch(error) {
+        console.error("Failed to create", actionSpec.name, "-", error);
+    }
+
+    options.body = guestSpec;
+
+    try {
+        const guestSheet = await ss.sheets.createSheetInFolder(options);
+        console.log("action sheet info:", guestSheet);
+    } catch(error) {
+        console.error("Failed to create", guestSpec.name, "-", error);
+    }
+};
+
+// createRsvpSheetsInFolder();

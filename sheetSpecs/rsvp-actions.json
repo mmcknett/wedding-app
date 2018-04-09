@@ -1,0 +1,22 @@
+{
+    "name": "rsvp-actions",
+    "columns": [
+        {
+            "title": "Action #",
+            "systemColumnType": "AUTO_NUMBER",
+            "autoNumberFormat": {
+                "startingNumber": 0
+            },
+            "type": "TEXT_NUMBER"
+        },
+        {
+            "title": "Invite #",
+            "primary": true,
+            "type": "TEXT_NUMBER"
+        },
+        {
+            "title": "Accepts",
+            "type": "TEXT_NUMBER"
+        }
+    ]
+}
