@@ -12,6 +12,7 @@
   "scripts": {
     "example": "node test/example.js",
     "create": "node scripts/create-sheets.js",
+    "populate-guests": "node scripts/populate-invite-guests.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

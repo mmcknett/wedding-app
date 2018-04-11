@@ -134,6 +134,36 @@ const copyGuestList = async () => {
     ).forEach((column) => {
         console.log(column.title, column.id);
     });
+    const inviteGuestsList = await ss.sheets.getSheet({ id: appSheets.inviteGuests.id});
+    console.log("invite-guests:", inviteGuestsList);
+
+    const rows = guestList.rows.slice(1, guestList.rows.length - 1).map(row => ({
+        toBottom: true,
+        cells: [
+            {
+                columnId: appSheets.inviteGuests.columnIds.inviteNumber,
+                value: row.cells.find(cell => cell.columnId === testSourceData.columnIds.inviteNumber).value
+            },
+            {
+                columnId: appSheets.inviteGuests.columnIds.guestName,
+                value: row.cells.find(cell => cell.columnId === testSourceData.columnIds.guestName).value
+            }
+        ]
+    }));
+    console.log(rows.length);
+    console.log("First row:", rows[0].cells);
+    console.log("Last row:", rows[rows.length - 1].cells);
+    
+
+    try {
+        const newRows = await ss.sheets.addRows({
+            sheetId: appSheets.inviteGuests.id,
+            body: rows
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
 }
 
 copyGuestList();
