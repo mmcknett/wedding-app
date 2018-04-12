@@ -45,6 +45,6 @@ const populateInviteGuests = async () => {
     catch (err) {
         console.error(err);
     }
-}
+};
 
 populateInviteGuests();
