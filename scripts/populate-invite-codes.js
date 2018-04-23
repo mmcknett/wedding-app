@@ -31,16 +31,38 @@ const generateRandomCode = () => {
 const populateInviteCodes = async () => {
     const guestList = await ss.sheets.getSheet({ id: appSheets.inviteGuests.id });
 
-    console.log(guestList);
     const inviteNumbers = new Set();
-    const rows = guestList.rows.forEach(row => {
+    guestList.rows.forEach(row => {
         inviteNumbers.add(
             row.cells.find(cell => cell.columnId === appSheets.inviteGuests.columnIds.inviteNumber)
                 .value
         );
     });
+    
+    const rsvpInvites = await ss.sheets.getSheet({ id: appSheets.rsvpInvitesId });
+    const rows = [...inviteNumbers].map(inviteNumber => ({
+        toBottom: true,
+        cells: [
+            {
+                columnId: appSheets.rsvpInvites.columnIds.inviteNumber,
+                value: inviteNumber
+            },
+            {
+                columnId: appSheets.rsvpInvites.columnIds.inviteCode,
+                value: generateRandomCode()
+            }
+        ]
+    }));
 
-    console.log(inviteNumbers);
+    try {
+        const newRows = await ss.sheets.addRows({
+            sheetId: appSheets.rsvpInvites.id,
+            body: rows
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
 };
 
 populateInviteCodes();
