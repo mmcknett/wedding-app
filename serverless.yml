@@ -1,0 +1,19 @@
+service: rsvp-api
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  getGuests:
+    handler: api/get-guests.getGuests
+    events:
+        - http:
+            path: rsvp/api/guests
+            method: get
+
+package:
+  exclude:
+    - ./**
+  include:
+    - api/**
