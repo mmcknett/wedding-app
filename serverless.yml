@@ -17,3 +17,5 @@ package:
     - ./**
   include:
     - api/**
+    - ss-config.json
+    - node_modules/**
