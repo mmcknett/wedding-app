@@ -11,6 +11,12 @@ functions:
         - http:
             path: rsvp/api/guests
             method: get
+  postGuests:
+    handler: api/post-guests.postGuests
+    events:
+        - http:
+            path: rsvp/api/guests
+            method: post
 
 package:
   exclude:
