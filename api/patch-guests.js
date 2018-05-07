@@ -1,4 +1,12 @@
 const isCodeValid = require('../rsvp-logic/is-code-valid');
+const { patchGuestList } = require('../data-loaders/load-guest-list');
+const loadInviteCodes = require('../data-loaders/load-invite-codes');
+
+const updateGuestResponses = async (inviteCode, updateBlock) => {
+    const inviteCodes = await loadInviteCodes();
+    const inviteNumber = inviteCodes[inviteCode] || -1;
+    return patchGuestList(inviteNumber, updateBlock.guests);
+};
 
 module.exports.patchGuests = async (event, context, callback) => {
     console.log('Updating guests...');
@@ -17,7 +25,7 @@ module.exports.patchGuests = async (event, context, callback) => {
 
         if (await isCodeValid(inviteCode)) {
             statusCode = 200;
-            message = 'Token valid, but did nothing.';
+            message = await updateGuestResponses(inviteCode, event.body);
         } else {
             statusCode = 401;
             message = 'Invalid token.';

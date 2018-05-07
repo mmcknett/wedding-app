@@ -1,5 +1,5 @@
 const loadInviteCodes = require('../data-loaders/load-invite-codes');
-const loadGuestList = require('../data-loaders/load-guest-list');
+const { loadGuestList } = require('../data-loaders/load-guest-list');
 
 const getGuestsFromInvite = async (inviteCode) => {
     const inviteCodes = await loadInviteCodes();
