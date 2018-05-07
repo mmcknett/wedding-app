@@ -5,6 +5,7 @@ const loadInviteCodes = require('../data-loaders/load-invite-codes');
 const updateGuestResponses = async (inviteCode, updateBlock) => {
     const inviteCodes = await loadInviteCodes();
     const inviteNumber = inviteCodes[inviteCode] || -1;
+    console.log('Update requested:', updateBlock);
     return patchGuestList(inviteNumber, updateBlock.guests);
 };
 
@@ -25,7 +26,7 @@ module.exports.patchGuests = async (event, context, callback) => {
 
         if (await isCodeValid(inviteCode)) {
             statusCode = 200;
-            message = await updateGuestResponses(inviteCode, event.body);
+            message = await updateGuestResponses(inviteCode, JSON.parse(event.body));
         } else {
             statusCode = 401;
             message = 'Invalid token.';

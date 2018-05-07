@@ -23,5 +23,7 @@ package:
     - ./**
   include:
     - api/**
+    - data-loaders/**
+    - rsvp-logic/**
     - ss-config.json
     - node_modules/**
