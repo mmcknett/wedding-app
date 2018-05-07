@@ -1,6 +1,6 @@
 const isCodeValid = require('../rsvp-logic/is-code-valid');
 
-module.exports.postGuests = async (event, context, callback) => {
+module.exports.patchGuests = async (event, context, callback) => {
     console.log('Updating guests...');
 
     const { Authorization: authorization } = event.headers;

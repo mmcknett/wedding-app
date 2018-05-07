@@ -11,12 +11,12 @@ functions:
         - http:
             path: rsvp/api/guests
             method: get
-  postGuests:
-    handler: api/post-guests.postGuests
+  patchGuests:
+    handler: api/patch-guests.patchGuests
     events:
         - http:
             path: rsvp/api/guests
-            method: post
+            method: patch
 
 package:
   exclude:
