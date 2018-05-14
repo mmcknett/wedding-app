@@ -11,12 +11,14 @@ functions:
         - http:
             path: rsvp/api/guests
             method: get
+            cors: true
   patchGuests:
     handler: api/patch-guests.patchGuests
     events:
         - http:
             path: rsvp/api/guests
             method: patch
+            cors: true
 
 package:
   exclude:
