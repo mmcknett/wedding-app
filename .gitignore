@@ -22,4 +22,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+src/rsvp-client/rsvp-client-config.json
 ss-config.json
