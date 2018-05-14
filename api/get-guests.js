@@ -9,6 +9,7 @@ module.exports.getGuests = async (event, context, callback) => {
 
     let statusCode = 200;
     let message;
+    let guests;
 
     if (!authorization || !authorization.startsWith(prefix)) {
         statusCode = 400;
@@ -16,7 +17,8 @@ module.exports.getGuests = async (event, context, callback) => {
     } else {
         const inviteCode = authorization.slice(prefix.length);
         if (await isCodeValid(inviteCode)) {
-            message = await getGuestsFromInvite(inviteCode);
+            const response = await getGuestsFromInvite(inviteCode);
+            guests = response.guests;
         } else {
             statusCode = 401;
             message = 'Invalid token.';
@@ -26,7 +28,8 @@ module.exports.getGuests = async (event, context, callback) => {
     const response = {
         statusCode,
         body: JSON.stringify({
-            message
+            message,
+            guests
         }),
     };
 
