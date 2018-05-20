@@ -1,5 +1,5 @@
 import axios from "axios";
-import { rsvpEndpoint } from './srvp-client-config';
+import { rsvpEndpoint } from './rsvp-client-config';
 
 export default class RsvpClient {
     constructor(inviteCode) {
