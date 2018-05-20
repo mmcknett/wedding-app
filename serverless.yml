@@ -3,22 +3,30 @@ service: rsvp-api
 provider:
   name: aws
   runtime: nodejs8.10
+  region: us-west-2
+  stage: prod
 
 functions:
   getGuests:
     handler: api/get-guests.getGuests
     events:
         - http:
-            path: rsvp/api/guests
+            path: api/guests
             method: get
             cors: true
   patchGuests:
     handler: api/patch-guests.patchGuests
     events:
         - http:
-            path: rsvp/api/guests
+            path: api/guests
             method: patch
             cors: true
+  getHealth:
+    handler: api/health-check.health
+    events:
+        - http:
+            path: api/health
+            method: get
 
 package:
   exclude:
