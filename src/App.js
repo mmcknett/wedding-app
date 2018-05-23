@@ -49,6 +49,32 @@ class RsvpForm extends Component {
   }
 }
 
+const CodeError = (props) => {
+  return (
+    <div>
+      <p className="App-intro">
+        There are no guests for this code.
+      </p>
+      <button onClick={ props.onReset }>Try Again</button>
+    </div>
+  );
+};
+
+const GuestBlock = (props) => {
+  const { guest, updateGuest } = props;
+
+  return (
+    <div>
+      { guest.name }:
+      <select value={ guest.status } onChange={ updateGuest }>
+        <option value='attending'>Attending</option>
+        <option value='declined'>Unable to attend</option>
+        <option value='no-reply'>Not yet replied</option>
+      </select>
+    </div>
+  );
+};
+
 class App extends Component {
   constructor() {
     super();
@@ -66,11 +92,32 @@ class App extends Component {
   }
 
   async loadGuests(inviteCode) {
-    this.rsvpClient = new RsvpClient(inviteCode);
-    const guests = await this.rsvpClient.getGuests();
+    if (inviteCode && inviteCode.length > 0) {
+      this.rsvpClient = new RsvpClient(inviteCode);
+      const guests = await this.rsvpClient.getGuests();
+      this.setState({
+        guests
+      });
+    }
+  }
+
+  updateGuest(index, event) {
+    const status = event.target.value;
+    const guests = this.state.guests.slice();
+    guests[index].status = status;
     this.setState({
       guests
     });
+  }
+
+  submitRsvp(event) {
+    if (this.rsvpClient && this.state.guests) {
+      this.rsvpClient.rsvp(this.state.guests);
+      this.setState({
+        message: 'RSVP submitted!'
+      })
+    }
+    event.preventDefault();
   }
 
   render() {
@@ -86,17 +133,30 @@ class App extends Component {
       body = (
         <div className="App">
           <p className="App-intro">
-            Showing guests for invitation code <code>{ this.state.inviteCode }</code>
+            Guests (invitation code <code>{ this.state.inviteCode }</code>)
           </p>
+          <form onSubmit={ this.submitRsvp.bind(this) }>
           {
-            this.state.guests && this.state.guests.map(guest =>
-              (<span>{ guest.name }: { guest.status }</span>))
+            this.state.guests && this.state.guests.map((guest, index) =>
+              (<GuestBlock guest={guest} key={index} updateGuest={ this.updateGuest.bind(this, index) } />))
+          }
+          <input type="submit" value="Update RSVP" />
+          </form>
+          {
+            !this.state.guests && (
+              <CodeError onReset={ this.useCode.bind(this, "") } />
+            )
+          }
+          {
+            this.state.message && (
+              <div>{ this.state.message }</div>
+            )
           }
         </div>
       )
     }
 
-    return(
+    return (
       <AppHeader>
         { body }
       </AppHeader>
