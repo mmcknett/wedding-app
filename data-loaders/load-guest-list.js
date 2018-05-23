@@ -5,7 +5,11 @@ let guests = {};
 let guestRows = {};
 
 const loadGuestList = async () => {
-    if (!Object.keys(guests).length || !Object.keys(guestRows).length) {
+    // TESTING: The caching is really behaving badly.
+    // if (!Object.keys(guests).length || !Object.keys(guestRows).length) {
+    guests = {};
+    guestRows = {};
+
         console.log('Loading guest list from Smartsheet...');
 
         const guestList = await ss.sheets.getSheet({ id: appSheets.inviteGuests.id });
@@ -22,7 +26,7 @@ const loadGuestList = async () => {
             // Transform to the rsvp-app data model.
             addGuestFromRow(inviteNumber, row); 
         });
-    }
+    // }
 
     return guests;
 };
