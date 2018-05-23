@@ -1,6 +1,7 @@
 const isCodeValid = require('../rsvp-logic/is-code-valid');
 const { patchGuestList } = require('../data-loaders/load-guest-list');
 const loadInviteCodes = require('../data-loaders/load-invite-codes');
+const getCorsHeaders = require('./get-cors-headers');
 
 const updateGuestResponses = async (inviteCode, updateBlock) => {
     const inviteCodes = await loadInviteCodes();
@@ -33,8 +34,10 @@ module.exports.patchGuests = async (event, context, callback) => {
         }
     }
 
+    const headers = getCorsHeaders(event);
     const response = {
         statusCode,
+        headers,
         body: JSON.stringify({
             message,
             requestBody: event.body
