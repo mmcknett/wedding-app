@@ -103,6 +103,11 @@ class App extends Component {
 
   updateGuest(index, event) {
     const status = event.target.value;
+
+    if (status === 'no-reply') {
+      return; // Force user to reply.
+    }
+
     const guests = this.state.guests.slice();
     guests[index].status = status;
     this.setState({
