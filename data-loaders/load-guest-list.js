@@ -92,6 +92,10 @@ const patchGuestList = async (inviteNumber, updatedGuests) => {
             body: updateRows
         });
         updateRows.forEach(row => console.log(row));
+
+        // TESTING: Just invalidate guests immediately.
+        guests = {};
+        guestRows = {};
     } catch(err) {
         console.error('Patching the guest list failed:', err);
         guestRows = {}; // Force a re-update the next time the guest list is requested.
