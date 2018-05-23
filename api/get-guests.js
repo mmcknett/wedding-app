@@ -25,8 +25,18 @@ module.exports.getGuests = async (event, context, callback) => {
         }
     }
 
+    // TODO: Use a more exclusive regex to match the domain; this will allow subdomains that include the domain.
+    const origin = event.headers.origin;
+    const accessControlAllowOrigin = origin && origin.includes('rsvp.amynmatt.life') ? origin : null;
+
+    console.log(`Origin is "${origin}", origin allowed is "${accessControlAllowOrigin}"`);
+
     const response = {
         statusCode,
+        headers: {
+            'Access-Control-Allow-Origin': accessControlAllowOrigin,
+            'Access-Control-Allow-Credentials': true
+        },
         body: JSON.stringify({
             message,
             guests
