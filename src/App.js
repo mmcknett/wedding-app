@@ -8,7 +8,7 @@ const AppHeader = (props) => {
     <div className="App">
         <header className="App-header">
           { /*<img src={logo} className="App-logo" alt="logo" />*/ }
-          <h1 className="App-title">RSVP system</h1>
+          <h1 className="App-title">RSVP for Matt and Amy's wedding</h1>
         </header>
         { props.children }
       </div>
