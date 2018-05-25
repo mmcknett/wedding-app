@@ -8,7 +8,7 @@ export default class RsvpClient {
         this.inviteCode = inviteCode;
         this.axiosClient = axios.create({
             baseURL,
-            timeout: 5000,
+            timeout: 15000,
             headers: {
                 'Authorization': `Bearer ${inviteCode}`,
                 'Content-Type': 'application/json',
@@ -18,10 +18,10 @@ export default class RsvpClient {
           });
     }
 
-    async getGuests() {
+    async getRsvpData() {
         try {
             const { data } = await this.axiosClient.get('/guests');
-            return data.guests;
+            return data;
         } catch(err) {
             console.error('getGuests error:', err);
         }

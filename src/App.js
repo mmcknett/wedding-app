@@ -7,7 +7,7 @@ const AppHeader = (props) => {
   return (
     <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          { /*<img src={logo} className="App-logo" alt="logo" />*/ }
           <h1 className="App-title">RSVP system</h1>
         </header>
         { props.children }
@@ -15,7 +15,7 @@ const AppHeader = (props) => {
   );
 };
 
-class RsvpForm extends Component {
+class InviteCodeForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -79,7 +79,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      inviteCode: ''
+      inviteCode: '',
+      loading: false
     }
   }
 
@@ -93,11 +94,17 @@ class App extends Component {
 
   async loadGuests(inviteCode) {
     if (inviteCode && inviteCode.length > 0) {
+      this.setState({ loading: true });
+
       this.rsvpClient = new RsvpClient(inviteCode);
-      const guests = await this.rsvpClient.getGuests();
-      this.setState({
-        guests
-      });
+      const data = await this.rsvpClient.getRsvpData();
+
+      const newState = { 
+        loading: false,
+        ...data
+      };
+
+      this.setState(newState);
     }
   }
 
@@ -125,40 +132,66 @@ class App extends Component {
     event.preventDefault();
   }
 
+  getInvitePage = () => {
+    return (
+      <InviteCodeForm useCode={ this.useCode.bind(this) } />
+    );
+  }
+
+  getGuestListPage = () => {
+    return (
+      <div className="App">
+        <p className="App-intro">
+          Your code: <code>{ this.state.inviteCode }</code>
+        </p>
+        {
+          this.state.guests && (
+            <div>
+              <p>
+                Please accept or decline. It is important to us to make sure we have enough seats and food for everyone.  Thanks!
+              </p>
+              <p>
+                If you have trouble, you may call us at { this.state.contactUs.phone } or email us at <a
+                href={ this.state.contactUs.email }>{ this.state.contactUs.email }</a>.
+              </p>
+              <form onSubmit={ this.submitRsvp.bind(this) }>
+                {
+                  this.state.guests.map((guest, index) =>
+                    (<GuestBlock guest={guest} key={index} updateGuest={ this.updateGuest.bind(this, index) } />))
+                }
+                <input type="submit" value="Update RSVP" />
+              </form>
+            </div>
+          )
+        }
+        {
+          !this.state.guests && !this.state.loading && (
+            <CodeError onReset={ this.useCode.bind(this, "") } />
+          )
+        }
+        {
+          this.state.loading && (
+            <p>Loading guests...</p>
+          )
+        }
+        {
+          this.state.message && (
+            <div>{ this.state.message }</div>
+          )
+        }
+      </div>
+    );
+  }
+
   render() {
     let body;
 
     console.log('Guests:', this.state.guests);
 
     if (!this.state.inviteCode) {
-      body = (
-        <RsvpForm useCode={ this.useCode.bind(this) } />
-      );
+      body = this.getInvitePage();
     } else {
-      body = (
-        <div className="App">
-          <p className="App-intro">
-            Guests (invitation code <code>{ this.state.inviteCode }</code>)
-          </p>
-          <form onSubmit={ this.submitRsvp.bind(this) }>
-          {
-            this.state.guests && this.state.guests.map((guest, index) =>
-              (<GuestBlock guest={guest} key={index} updateGuest={ this.updateGuest.bind(this, index) } />))
-          }
-          <input type="submit" value="Update RSVP" />
-          </form>
-          {
-            !this.state.guests && (
-              <CodeError onReset={ this.useCode.bind(this, "") } />
-            )
-          }
-          {
-            this.state.message && (
-              <div>{ this.state.message }</div>
-            )
-          }
-        </div>
-      )
+      body = this.getGuestListPage();
     }
 
     return (
@@ -166,8 +199,6 @@ class App extends Component {
         { body }
       </AppHeader>
     );
-    
-    
   }
 }
 

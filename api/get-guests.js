@@ -11,6 +11,7 @@ module.exports.getGuests = async (event, context, callback) => {
     let statusCode = 200;
     let message;
     let guests;
+    let contactUs;
 
     if (!inviteCode) {
         statusCode = 400;
@@ -20,6 +21,11 @@ module.exports.getGuests = async (event, context, callback) => {
             const response = await getGuestsFromInvite(inviteCode);
             guests = response.guests;
             console.log(`Guests loaded for invite ${inviteCode}: ${JSON.stringify(guests)}`);
+
+            contactUs = {
+                phone: '(425) 449-0919',
+                email: 'us@mattnamy.us'
+            }
         } else {
             statusCode = 401;
             message = 'Invalid invite code.';
@@ -32,7 +38,8 @@ module.exports.getGuests = async (event, context, callback) => {
         headers,
         body: JSON.stringify({
             message,
-            guests
+            guests,
+            contactUs
         }),
     };
 
