@@ -3,8 +3,7 @@ import { rsvpEndpoint } from './rsvp-client-config';
 
 export default class RsvpClient {
     constructor(inviteCode) {
-        // let baseURL = (process.env.NODE_ENV === "development") ? rsvpEndpoint.urlDevelopment : rsvpEndpoint.url;
-        let baseURL = rsvpEndpoint.url;
+        let baseURL = (process.env.NODE_ENV === "development") ? rsvpEndpoint.urlDevelopment : rsvpEndpoint.url;
         
         this.inviteCode = inviteCode;
         this.axiosClient = axios.create({
