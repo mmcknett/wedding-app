@@ -192,6 +192,14 @@ class App extends Component {
             <div>{ this.state.message }</div>
           )
         }
+        <p>
+          Want us to email you if there are changes?&nbsp;
+          <a
+            href="http://gem.godaddy.com/signups/0bfd1c69e158471883f0e5b70d04bbbf/join"
+            target="_blank">
+            Sign up for updates.
+          </a>
+        </p>
       </div>
     );
   }
