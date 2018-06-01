@@ -6,8 +6,8 @@ import RsvpClient from './rsvp-client';
 
 const AppHeader = (props) => {
   return (
-    <div className="App">
-        <header className="App-header">
+    <div className="App" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <header className="App-header" style={{ alignSelf: 'stretch' }}>
           { /*<img src={logo} className="App-logo" alt="logo" />*/ }
           <h1 className="App-title">RSVP for Matt and Amy's wedding</h1>
         </header>
@@ -65,9 +65,18 @@ const GuestBlock = (props) => {
   const { guest, updateGuest } = props;
 
   return (
-    <div>
-      { guest.name }:
-      <select value={ guest.status } onChange={ updateGuest }>
+    <div style={{ 
+      display: 'flex',
+      flexBasis: 'auto',
+      flexGrow: 0,
+      flexShrink: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: '4px'
+    }}>
+      { guest.name }:&nbsp;
+      <select value={ guest.status } onChange={ updateGuest } style={{ fontSize: 14 }}>
         <option value='attending'>Attending</option>
         <option value='declined'>Unable to attend</option>
         <option value='no-reply'>Not yet replied</option>
@@ -152,27 +161,31 @@ class App extends Component {
 
   getGuestListPage = () => {
     return (
-      <div className="App">
+      <div className="App" style={{ maxWidth: '700px', flexBasis: '60%' }}>
         <p className="App-intro">
           Your code: <code>{ this.state.inviteCode }</code>
         </p>
         {
           this.state.guests && (
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <p>
                 Please accept or decline. It is important to us to make sure we have enough seats and food for everyone.  Thanks!
               </p>
               <p>
                 If you have trouble, you may call us at { this.state.contactUs.phone } or email us at <a
-                href={ this.state.contactUs.email }>{ this.state.contactUs.email }</a>.  Please email us about any food allergies or
+                href={`mailto:${ this.state.contactUs.email }`}>{ this.state.contactUs.email }</a>.  Please email us about any food allergies or
                 if we missed someone in your party.
               </p>
-              <form onSubmit={ this.submitRsvp.bind(this) }>
+              <hr style={{ width: '100%' }}/>
+              <form
+                onSubmit={ this.submitRsvp.bind(this) }
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
+              >
                 {
                   this.state.guests.map((guest, index) =>
                     (<GuestBlock guest={guest} key={index} updateGuest={ this.updateGuest.bind(this, index) } />))
                 }
-                <input type="submit" value="Update RSVP" />
+                <input type="submit" value="Update RSVP" style={{ alignSelf: 'flex-end', marginTop: '10px' }} />
               </form>
             </div>
           )
@@ -189,9 +202,10 @@ class App extends Component {
         }
         {
           this.state.message && (
-            <div>{ this.state.message }</div>
+            <div style={{ marginTop: '10px' }}>{ this.state.message }</div>
           )
         }
+        <hr />
         <p>
           Want us to email you if there are changes?&nbsp;
           <a
