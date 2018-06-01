@@ -152,7 +152,8 @@ class App extends Component {
               </p>
               <p>
                 If you have trouble, you may call us at { this.state.contactUs.phone } or email us at <a
-                href={ this.state.contactUs.email }>{ this.state.contactUs.email }</a>.
+                href={ this.state.contactUs.email }>{ this.state.contactUs.email }</a>.  Please email us about any food allergies or
+                if we missed someone in your party.
               </p>
               <form onSubmit={ this.submitRsvp.bind(this) }>
                 {
