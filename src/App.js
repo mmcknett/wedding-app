@@ -9,7 +9,7 @@ const AppHeader = (props) => {
     <div className="App" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <header className="App-header" style={{ alignSelf: 'stretch' }}>
           { /*<img src={logo} className="App-logo" alt="logo" />*/ }
-          <h1 className="App-title">RSVP for Matt and Amy's wedding</h1>
+          <h1 className="App-title">RSVP for Matt and Amy's Wedding Celebration</h1>
         </header>
         { props.children }
       </div>
@@ -161,7 +161,7 @@ class App extends Component {
 
   getGuestListPage = () => {
     return (
-      <div className="App" style={{ maxWidth: '700px', flexBasis: '60%' }}>
+      <div className="App" style={{ maxWidth: '600px', flexBasis: '60%' }}>
         <p className="App-intro">
           Your code: <code>{ this.state.inviteCode }</code>
         </p>
@@ -172,9 +172,9 @@ class App extends Component {
                 Please accept or decline. It is important to us to make sure we have enough seats and food for everyone.  Thanks!
               </p>
               <p>
-                If you have trouble, you may call us at { this.state.contactUs.phone } or email us at <a
-                href={`mailto:${ this.state.contactUs.email }`}>{ this.state.contactUs.email }</a>.  Please email us about any food allergies or
-                if we missed someone in your party.
+                If you have trouble, you may call/text us at { this.state.contactUs.phone } or email us at <a
+                href={`mailto:${ this.state.contactUs.email }`}>{ this.state.contactUs.email }</a>.<br/>
+                Please email us about any food allergies or if we missed someone in your party.
               </p>
               <hr style={{ width: '100%' }}/>
               <form
