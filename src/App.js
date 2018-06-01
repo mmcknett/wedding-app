@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Cookies from 'universal-cookie';
+
 import './App.css';
 import RsvpClient from './rsvp-client';
 
@@ -78,10 +79,16 @@ const GuestBlock = (props) => {
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
       inviteCode: '',
       loading: false
     }
+
+    const cookies = new Cookies();
+    const inviteCode = cookies.get('inviteCode');
+
+    setTimeout(this.useCode.bind(this, inviteCode));
   }
 
   useCode(inviteCode) {
@@ -98,6 +105,11 @@ class App extends Component {
 
       this.rsvpClient = new RsvpClient(inviteCode);
       const data = await this.rsvpClient.getRsvpData();
+
+      if (data && data.guests) {
+        const cookies = new Cookies();
+        cookies.set('inviteCode', inviteCode, { path: '/' });
+      }
 
       const newState = { 
         loading: false,
