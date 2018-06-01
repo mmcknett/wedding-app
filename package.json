@@ -14,6 +14,7 @@
     "example": "node test/example.js",
     "create": "node scripts/create-sheets.js",
     "populate-guests": "node scripts/populate-invite-guests.js",
+    "deploy-site": "npm run build && aws s3 cp ./build/ s3://amynmatt-life-rsvp-app/ --recursive --acl public-read",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
