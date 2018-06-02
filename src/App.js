@@ -172,8 +172,10 @@ class App extends Component {
                 Please accept or decline. It is important to us to make sure we have enough seats and food for everyone.  Thanks!
               </p>
               <p>
-                If you have trouble, you may call/text us at { this.state.contactUs.phone } or email us at <a
-                href={`mailto:${ this.state.contactUs.email }`}>{ this.state.contactUs.email }</a>.<br/>
+                If you have trouble, call/text us at { this.state.contactUs.phone } or email us at <a
+                href={`mailto:${ this.state.contactUs.email }`}>{ this.state.contactUs.email }</a>.
+              </p>
+              <p>
                 Please email us about any food allergies or if we missed someone in your party.
               </p>
               <hr style={{ width: '100%' }}/>
