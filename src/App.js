@@ -210,7 +210,9 @@ class App extends Component {
           Want us to email you if there are changes?&nbsp;
           <a
             href="http://gem.godaddy.com/signups/0bfd1c69e158471883f0e5b70d04bbbf/join"
-            target="_blank">
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Sign up for updates.
           </a>
         </p>
