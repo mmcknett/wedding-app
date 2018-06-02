@@ -22,5 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Private information and configuration
+api/private-info.js
 src/rsvp-client/rsvp-client-config.json
 ss-config.json

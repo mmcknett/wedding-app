@@ -1,4 +1,13 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Link,
+  withRouter
+} from 'react-router-dom';
+import Remarkable from 'remarkable';
+import Parser from 'html-react-parser';
 import Cookies from 'universal-cookie';
 
 import './App.css';
@@ -51,15 +60,24 @@ class InviteCodeForm extends Component {
 }
 
 const CodeError = (props) => {
+  const buttonAction = props.history ?
+    () => {
+      props.history.push('/');
+      props.onReset()
+    } :
+    props.onReset;
+
   return (
     <div>
       <p className="App-intro">
         There are no guests for this code.
       </p>
-      <button onClick={ props.onReset }>Try Again</button>
+      <button onClick={ buttonAction }>Try Again</button>
     </div>
   );
 };
+
+const CodeErrorNav = withRouter(CodeError);
 
 const GuestBlock = (props) => {
   const { guest, updateGuest } = props;
@@ -155,7 +173,9 @@ class App extends Component {
 
   getInvitePage = () => {
     return (
-      <InviteCodeForm useCode={ this.useCode.bind(this) } />
+      this.state.inviteCode ?
+        <Redirect to="/guests" /> :
+        <InviteCodeForm useCode={ this.useCode.bind(this) } />
     );
   }
 
@@ -194,7 +214,7 @@ class App extends Component {
         }
         {
           !this.state.guests && !this.state.loading && (
-            <CodeError onReset={ this.useCode.bind(this, "") } />
+            <CodeErrorNav onReset={ this.useCode.bind(this, "") } />
           )
         }
         {
@@ -222,21 +242,49 @@ class App extends Component {
     );
   }
 
-  render() {
-    let body;
+  getInfoPage = () => {
+    const infoPage = this.state.infoPage;
 
-    console.log('Guests:', this.state.guests);
+    if (!infoPage) {
+      if (!this.state.guests) {
+        return (
+          <div><em>You may need to <Link to="/">enter your code</Link> to see the info page.</em></div>
+        );
+      }
 
-    if (!this.state.inviteCode) {
-      body = this.getInvitePage();
-    } else {
-      body = this.getGuestListPage();
+      return (
+        <div><em>The info page is missing.  Please let us know you saw this error!</em></div>
+      );
     }
 
+    const md = new Remarkable();
     return (
-      <AppHeader>
-        { body }
-      </AppHeader>
+      <div style={{
+        all: 'initial',
+        fontFamily: 'sans-serif',
+        maxWidth: '600px',
+        flexBasis: '60%',
+        margin: '20px'
+      }}>
+        { Parser(md.render(infoPage)) }
+      </div>
+    );
+  }
+
+  render() {
+    console.log('Guests:', this.state.guests);
+
+    return (
+      <Router>
+        <AppHeader>
+          <Route exact path="/" children={ ({match}) => !match && (
+            <div style={{ margin: '20px' }}><Link to="/guests">RSVP</Link> | <Link to="/info">Event info</Link></div>
+          )} />
+          <Route exact path="/" render={ this.getInvitePage.bind(this) } />
+          <Route path="/guests" render={ this.getGuestListPage.bind(this) } />
+          <Route path="/info" render={ this.getInfoPage.bind(this) } />
+        </AppHeader>
+      </Router>
     );
   }
 }

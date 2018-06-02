@@ -2,6 +2,7 @@ const getGuestsFromInvite = require('../rsvp-logic/get-invite-guests');
 const isCodeValid = require('../rsvp-logic/is-code-valid');
 const getCorsHeaders = require('./get-cors-headers');
 const getInviteCode = require('./get-invite-code');
+const { contactUsDetails, infoPageText } = require('./private-info');
 
 module.exports.getGuests = async (event, context, callback) => {
     console.log('Getting guests...');
@@ -12,6 +13,7 @@ module.exports.getGuests = async (event, context, callback) => {
     let message;
     let guests;
     let contactUs;
+    let infoPage;
 
     if (!inviteCode) {
         statusCode = 400;
@@ -22,10 +24,9 @@ module.exports.getGuests = async (event, context, callback) => {
             guests = response.guests;
             console.log(`Guests loaded for invite ${inviteCode}: ${JSON.stringify(guests)}`);
 
-            contactUs = {
-                phone: '(425) 449-0919',
-                email: 'us@mattnamy.us'
-            }
+            // With a valid code, allow private information to be returned.
+            contactUs = contactUsDetails;
+            infoPage = infoPageText;
         } else {
             statusCode = 401;
             message = 'Invalid invite code.';
@@ -39,7 +40,8 @@ module.exports.getGuests = async (event, context, callback) => {
         body: JSON.stringify({
             message,
             guests,
-            contactUs
+            contactUs,
+            infoPage
         }),
     };
 
