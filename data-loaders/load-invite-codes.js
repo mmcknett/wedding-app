@@ -1,5 +1,6 @@
 const ss = require('./create-ss-client');
 const { appSheets } = require('../ss-config.json');
+const transformCode = require('../rsvp-logic/transform-code');
 
 let inviteCodes = {};
 
@@ -9,7 +10,8 @@ const loadInviteCodes = async () => {
 
         const rsvpInvites = await ss.sheets.getSheet({ id: appSheets.rsvpInvites.id });
         rsvpInvites.rows.forEach(row => {
-            inviteCodes[row.cells[1].displayValue] = row.cells[0].displayValue;
+            const inviteCode = transformCode(row.cells[1].displayValue);
+            inviteCodes[inviteCode] = row.cells[0].displayValue;
         });
     }
 

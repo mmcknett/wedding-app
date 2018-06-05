@@ -1,3 +1,5 @@
+const transformCode = require('../rsvp-logic/transform-code');
+
 const getInviteCode = (authorization) => {
     const prefix = 'Bearer ';
 
@@ -6,7 +8,7 @@ const getInviteCode = (authorization) => {
     }
 
     const inviteCode = authorization.slice(prefix.length);
-    return inviteCode.toUpperCase();
+    return transformCode(inviteCode);
 }
 
 module.exports = getInviteCode;
