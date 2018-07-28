@@ -257,7 +257,7 @@ class App extends Component {
       );
     }
 
-    const md = new Remarkable();
+    const md = new Remarkable({ html: true });
     return (
       <div style={{
         all: 'initial',
