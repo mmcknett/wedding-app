@@ -174,7 +174,7 @@ class App extends Component {
   getInvitePage = () => {
     return (
       this.state.inviteCode ?
-        <Redirect to="/guests" /> :
+        <Redirect to="/info" /> :
         <InviteCodeForm useCode={ this.useCode.bind(this) } />
     );
   }
